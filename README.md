@@ -7,9 +7,10 @@ Get this.callback() by simple syntax parser
 # INSTALL
 ```
 npm install dora-util-is-async
+```
 
 # API
- * isAsync(code:String):boolean
+ * isAsync(code:String):boolean 代码是否包含`this.callback()`及其变体
 
 # License
 [MIT License]
