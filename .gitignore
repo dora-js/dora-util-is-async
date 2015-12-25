@@ -213,8 +213,5 @@ pip-log.txt
 .mr.developer.cfg
 covrage.html
 node_modules/
-tests/**/script.js
-tests/*/*-lie.*
 reports/
-tests/test*.js
 dist/
