@@ -1,0 +1,32 @@
+{
+  "name": "dora-util-is-async",
+  "version": "0.1.0",
+  "description": "Get this.callback() by simple syntax parser",
+  "maintainers": [
+    {
+      "name": "army8735",
+      "email": "army8735@qq.com"
+    }
+  ],
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dora-js/dora-util-is-async.git"
+  },
+  "keywords": [
+    "line"
+  ],
+  "author": "army8735",
+  "license": "MIT",
+  "devDependencies": {
+  },
+  "spm": {
+    "main": "./index.js",
+    "output": [
+      "./index.js"
+    ]
+  },
+  "readmeFilename": "README.md"
+}
