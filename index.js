@@ -2,14 +2,15 @@ var homunculus = require('homunculus');
 var Node = homunculus.getClass('Node', 'js');
 var Token = homunculus.getClass('Token');
 
-var res = false;
-var flag = 'callback';
+var res;
+var flag;
 
 function isAsync(code, f) {
-  flag = f || flag;
+  res = false;
+  flag = f || 'callback';
   var parser = homunculus.getParser('js');
   var ast = parser.parse(code);
-  parse(ast, Object.create(null));
+  parse(ast, {});
   return res;
 }
 
@@ -28,11 +29,33 @@ function preVar(ast, context) {
       break;
     case Node.VARDECL:
       var id = ast.first().token().content();
+      var assign = ast.leaf(1);
+      if(assign.name() == Node.ASSIGN) {
+        varThis(context, id, assign);
+      }
       break;
     default:
       ast.leaves().forEach(function(leaf) {
         preVar(leaf, context);
       });
+  }
+}
+
+function varThis(context, id, ast) {
+  if(!ast) {
+    return;
+  }
+  var assign = ast.leaf(1);
+  switch(assign.name()) {
+    case Node.PRMREXPR:
+      var t = assign.first();
+      if(t && t.isToken() && t.token().content() == 'this') {
+        context[id] = true;
+      }
+      break;
+    case Node.ASSIGNEXPR:
+      varThis(context, id, assign.leaf(2));
+      break;
   }
 }
 
@@ -66,8 +89,11 @@ function search(ast, context, inGlobal) {
                     prmr = mmb.leaf(2);
                     if(prmr && prmr.name() == Node.PRMREXPR) {
                       t = prmr.first();
-                      if(t && t.isToken() && t.type() == Token.STRING && t.val() == flag) {
-                        return res = true;
+                      if(t && t.isToken()) {
+                        t = t.token();
+                        if(t.type() == Token.STRING && t.val() == flag) {
+                          return res = true;
+                        }
                       }
                     }
                     break;
